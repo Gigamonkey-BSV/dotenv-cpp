@@ -40,13 +40,14 @@ configure_file(
     "${PROJECT_BINARY_DIR}/laserpants_dotenv-config.h" @ONLY)
 
 include(CMakePackageConfigHelpers)
+
 write_basic_package_version_file(
     laserpants_dotenv-config-version.cmake
     VERSION ${laserpants_dotenv_VERSION}
     COMPATIBILITY AnyNewerVersion)
 
 add_library(dotenv INTERFACE)
-set(main_lib__dest "lib/laserpants/dotenv-${laserpants_dotenv_VERSION}")
+set(main_lib_dest "lib/laserpants_dotenv-${laserpants_dotenv_VERSION}")
 set(lib_dest "${main_lib_dest}/${CMAKE_BUILD_TYPE}")
 
 target_include_directories(dotenv INTERFACE
@@ -63,9 +64,9 @@ install(
 
 install(
     FILES cmake/laserpants_dotenv-config.cmake
-    DESTINATION ${DOTENV_CONFIG_INSTALL_DIR})
+    DESTINATION ${main_lib_dest})
 
 install(TARGETS dotenv EXPORT dotenv DESTINATION "${lib_dest}")
 
 install(EXPORT dotenv NAMESPACE laserpants::
-    DESTINATION ${lib_dest})
+    DESTINATION "${lib_dest}")
